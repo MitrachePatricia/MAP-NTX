@@ -76,6 +76,9 @@ window.onload = () => {
         }
     }
 
+    const fileUrl = "./sources/data.xlsx";
+    loadExcelFile(fileUrl);
+
     document.querySelectorAll('.allPaths').forEach(path => {
         path.addEventListener('mouseover', (event) => {
             const countyName = path.getAttribute('name');
