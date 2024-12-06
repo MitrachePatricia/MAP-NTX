@@ -44,32 +44,37 @@ window.onload = () => {
     //     'Vrancea': { Lidl: 2, Kaufland: 3, Auchan: 1 }
     // };
 
-    const data = {}; 
+    const data = {};
 
     async function loadExcelFile(fileUrl) {
-        const response = await fetch(fileUrl);
-        const arrayBuffer = await response.arrayBuffer();
-        const workbook = XLSX.read(arrayBuffer, { type: 'array' });
+        try {
+            const response = await fetch(fileUrl); 
+            const arrayBuffer = await response.arrayBuffer(); 
+            const workbook = XLSX.read(arrayBuffer, { type: 'array' });
+            const sheetName = workbook.SheetNames[0]; 
+            const sheet = workbook.Sheets[sheetName];  
 
-        const sheetName = workbook.SheetNames[0];
-        const sheet = workbook.Sheets[sheetName];
-        const jsonData = XLSX.utils.sheet_to_json(sheet);
+            const jsonData = XLSX.utils.sheet_to_json(sheet);
 
-        jsonData.forEach(row => {
-            const county = row['County']; 
-            data[county] = {
-                Lidl: row['Lidl'] || 0,
-                Kaufland: row['Kaufland'] || 0,
-                Auchan: row['Auchan'] || 0,
-                misc: row['misc'] || 0,
-            };
-        });
+            
+            jsonData.forEach(row => {
+                const county = row['County']; 
+                if (county) {
+                    
+                    data[county] = {
+                        Lidl: row['Lidl'] || 0,       
+                        Kaufland: row['Kaufland'] || 0, 
+                        Auchan: row['Auchan'] || 0,     
+                        misc: row['misc'] || 0          
+                    };
+                }
+            });
 
-        console.log(data);
+            console.log(data);
+        } catch (error) {
+            console.error("Error loading or processing Excel file:", error);
+        }
     }
-
-    const fileUrl = 'https://github.com/MitrachePatricia/MAP-NTX/blob/main/sources/data.xlsx';
-    loadExcelFile(fileUrl);
 
     document.querySelectorAll('.allPaths').forEach(path => {
         path.addEventListener('mouseover', (event) => {
