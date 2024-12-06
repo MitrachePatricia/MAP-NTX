@@ -1,6 +1,4 @@
 window.onload = () => {
-
-    const data = {}; 
     // const data = {
     //     'Alba': { Lidl: 2, Kaufland: 3, Auchan: 1 },
     //     'Arad': { Lidl: 2, Kaufland: 3, Auchan: 1},
@@ -46,6 +44,8 @@ window.onload = () => {
     //     'Vrancea': { Lidl: 2, Kaufland: 3, Auchan: 1 }
     // };
 
+    const data = {}; 
+
     async function loadExcelFile(fileUrl) {
         const response = await fetch(fileUrl);
         const arrayBuffer = await response.arrayBuffer();
@@ -68,7 +68,7 @@ window.onload = () => {
         console.log(data);
     }
 
-    const fileUrl = 'https://github.com/MitrachePatricia/MAP-NTX-/blob/main/sources/data.xlsx';
+    const fileUrl = 'https://github.com/MitrachePatricia/MAP-NTX/blob/main/sources/data.xlsx';
     loadExcelFile(fileUrl);
 
     document.querySelectorAll('.allPaths').forEach(path => {
