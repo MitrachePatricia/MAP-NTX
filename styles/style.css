@@ -1,0 +1,69 @@
+body,
+html {
+  background-color: blanchedalmond;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+
+}
+.popup-header {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.popup-container {
+  position: absolute; 
+  background: white;
+  border: 1px solid #ccc;
+  padding: 5px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000; 
+  display: none; 
+  max-width: 200px; 
+}
+.allPaths {
+  cursor: pointer;
+  transition: fill 0.2s;
+  position: relative;
+    z-index: 1;
+
+}
+
+.popup-title {
+  font-weight: bold;
+  font-size: 16px;
+  margin-bottom: 5px;
+  text-align: center;
+}
+
+
+#map {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+
+svg path {
+  cursor: pointer;
+}
+
+svg path:hover {
+  fill: green;
+}
+
+@media (max-width: 768px) {
+  svg {
+    width: 100%;
+    height: auto;
+  }
+
+  svg path {
+    stroke-width: 2px;
+  }
+}
