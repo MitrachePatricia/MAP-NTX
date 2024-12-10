@@ -48,57 +48,60 @@ window.onload = () => {
 
     async function loadExcelFile(fileUrl) {
         try {
-            const response = await fetch(fileUrl); 
-            const arrayBuffer = await response.arrayBuffer(); 
+            console.log("Fetching file from URL:", fileUrl);
+            const response = await fetch(fileUrl);
+            console.log("Response status:", response.status);
+            const arrayBuffer = await response.arrayBuffer();
             const workbook = XLSX.read(arrayBuffer, { type: 'array' });
-            const sheetName = workbook.SheetNames[0]; 
-            const sheet = workbook.Sheets[sheetName];  
-
+            const sheetName = workbook.SheetNames[0];
+            const sheet = workbook.Sheets[sheetName];
+    
             const jsonData = XLSX.utils.sheet_to_json(sheet);
-
-            
+            console.log("Parsed JSON data:", jsonData);
+    
             jsonData.forEach(row => {
-                const county = row['County']; 
+                const county = row['County'];
                 if (county) {
-                    
                     data[county] = {
-                        Lidl: row['Lidl'] || 0,       
-                        Kaufland: row['Kaufland'] || 0, 
-                        Auchan: row['Auchan'] || 0,     
-                        misc: row['misc'] || 0          
+                        Lidl: row['Lidl'] || 0,
+                        Kaufland: row['Kaufland'] || 0,
+                        Auchan: row['Auchan'] || 0,
+                        misc: row['misc'] || 0
                     };
                 }
             });
-
-            console.log(data);
+    
+            console.log("Processed data:", data);
         } catch (error) {
             console.error("Error loading or processing Excel file:", error);
         }
     }
-
-    const fileUrl = "./sources/data.xlsx";
-    loadExcelFile(fileUrl);
+    
+    
 
     document.querySelectorAll('.allPaths').forEach(path => {
         path.addEventListener('mouseover', (event) => {
             const countyName = path.getAttribute('name');
             const countyData = data[countyName];
+                document.querySelector('.popup-title').textContent = countyName;
 
-            document.querySelector('.popup-title').textContent = countyName;
-
-            const shopInfo = Object.entries(countyData)
-                .map(([shop, count]) => `<tr><td>${shop}</td><td>${count}</td></tr>`)
-                .join('');
-            const tableBody = document.querySelector('.map-tooltip table tbody');
-            tableBody.innerHTML = shopInfo;
-            const popup = document.querySelector('.popup-container');
-            popup.style.display = 'block';
-            popup.style.left = `${event.pageX + 10}px`;
-            popup.style.top = `${event.pageY + 10}px`;
+                const shopInfo = Object.entries(countyData)
+                    .map(([shop, count]) => `<tr><td>${shop}</td><td>${count}</td></tr>`)
+                    .join('');
+                const tableBody = document.querySelector('.map-tooltip table tbody');
+                tableBody.innerHTML = shopInfo;
+                const popup = document.querySelector('.popup-container');
+                popup.style.display = 'block';
+                popup.style.left = `${event.pageX + 10}px`;
+                popup.style.top = `${event.pageY + 10}px`;
+            
         });
 
         path.addEventListener('mouseout', () => {
             document.querySelector('.popup-container').style.display = 'none';
         });
     });
+
+    const fileUrl = "https://raw.githubusercontent.com/MitrachePatricia/MAP-NTX/main/sources/data.xlsx";
+    loadExcelFile(fileUrl);
 };
