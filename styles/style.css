@@ -21,7 +21,7 @@ html {
   padding: 5px;
   border-radius: 5px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  z-index: 1000; 
+  z-index: 10; 
   display: none; 
   max-width: 200px; 
 }
@@ -29,7 +29,7 @@ html {
   cursor: pointer;
   transition: fill 0.2s;
   position: relative;
-    z-index: 1;
+  z-index: 1;
 
 }
 
@@ -39,6 +39,7 @@ html {
   margin-bottom: 5px;
   text-align: center;
 }
+
 
 
 #map {
@@ -66,4 +67,23 @@ svg path:hover {
   svg path {
     stroke-width: 2px;
   }
+}
+
+text {
+  pointer-events: none;
+  font-size: 20px;
+  text-anchor: middle;
+  fill: black;
+  block-size: 2px solid white;
+  font: 20px times new roman;
+}
+
+#pin path{
+  z-index: 100;
+}
+
+.label_point {
+  stroke-width: 2px;
+  stroke: red;
+  fill: transparent;
 }
