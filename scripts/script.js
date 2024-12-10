@@ -6,6 +6,7 @@ window.onload = () => {
         circles.forEach(circle => {
             const id = circle.id.substring(2);
 
+            if(id!="B"){
             const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
             label.textContent = id;
 
@@ -13,11 +14,33 @@ window.onload = () => {
             label.setAttribute("y", parseFloat(circle.getAttribute("cy")) + 15);
             label.setAttribute("text-anchor", "middle");
 
-            circle.parentNode.appendChild(label);
+            circle.parentNode.appendChild(label);}
+        });
+    }
+
+    function createPins() {
+        const labelPoints = document.getElementById('label_points');
+        const circles = labelPoints.querySelectorAll('circle');
+
+        circles.forEach(circle => {
+            const cx = parseFloat(circle.getAttribute('cx'));
+            const cy = parseFloat(circle.getAttribute('cy'));
+            const id = circle.getAttribute('id');
+            if (id != "ROB") {
+                const pin = document.createElementNS('http://www.w3.org/2000/svg', 'image');
+                pin.setAttribute('x', cx - 10);
+                pin.setAttribute('y', cy - 30);
+                pin.setAttribute('width', 30);
+                pin.setAttribute('height', 30);
+                pin.setAttribute('href', 'sources/pin.png');
+
+                labelPoints.appendChild(pin);
+            }
         });
     }
 
     createLabels();
+    createPins();
 
     const data = {};
 
@@ -55,7 +78,6 @@ window.onload = () => {
 
     const fileUrl = "https://raw.githubusercontent.com/MitrachePatricia/MAP-NTX/main/sources/data.xlsx";
     loadExcelFile(fileUrl);
-    //generateLabels();
 
     document.querySelectorAll('.allPaths').forEach(path => {
         path.addEventListener('mouseover', () => {
