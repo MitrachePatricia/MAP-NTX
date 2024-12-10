@@ -76,8 +76,9 @@ window.onload = () => {
             console.error("Error loading or processing Excel file:", error);
         }
     }
-    
-    
+
+    const fileUrl = "https://raw.githubusercontent.com/MitrachePatricia/MAP-NTX/main/sources/data.xlsx";
+    loadExcelFile(fileUrl);
 
     document.querySelectorAll('.allPaths').forEach(path => {
         path.addEventListener('mouseover', (event) => {
@@ -102,6 +103,5 @@ window.onload = () => {
         });
     });
 
-    const fileUrl = "https://raw.githubusercontent.com/MitrachePatricia/MAP-NTX/main/sources/data.xlsx";
-    loadExcelFile(fileUrl);
+    
 };
