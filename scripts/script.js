@@ -23,19 +23,39 @@ window.onload = () => {
         const circles = labelPoints.querySelectorAll('circle');
 
         circles.forEach(circle => {
+            if(circle.id=="ROIS"){
             const cx = parseFloat(circle.getAttribute('cx'));
             const cy = parseFloat(circle.getAttribute('cy'));
-            const id = circle.getAttribute('id');
-            if (id != "ROB") {
                 const pin = document.createElementNS('http://www.w3.org/2000/svg', 'image');
-                pin.setAttribute('x', cx - 10);
-                pin.setAttribute('y', cy - 30);
+                pin.setAttribute('x', cx + 10);
+                pin.setAttribute('y', cy);
                 pin.setAttribute('width', 30);
                 pin.setAttribute('height', 30);
                 pin.setAttribute('href', 'sources/pin.png');
 
                 labelPoints.appendChild(pin);
-            }
+                const pin2 = document.createElementNS('http://www.w3.org/2000/svg', 'image');
+                pin2.setAttribute('x', cx - 30);
+                pin2.setAttribute('y', cy - 35);
+                pin2.setAttribute('width', 30);
+                pin2.setAttribute('height', 30);
+                pin2.setAttribute('href', 'sources/pin.png');
+
+                labelPoints.appendChild(pin2);
+            } else if (circle.id=="RODJ" || circle.id=="ROB" || circle.id=="ROTM" || circle.id=="ROBV" || circle.id=="ROCJ"){
+                
+                    const cx = parseFloat(circle.getAttribute('cx'));
+                    const cy = parseFloat(circle.getAttribute('cy'));
+                        const pin = document.createElementNS('http://www.w3.org/2000/svg', 'image');
+                        pin.setAttribute('x', cx - 10);
+                        pin.setAttribute('y', cy - 35);
+                        pin.setAttribute('width', 30);
+                        pin.setAttribute('height', 30);
+                        pin.setAttribute('href', 'sources/pin.png');
+        
+                        labelPoints.appendChild(pin);
+                }
+            
         });
     }
 
@@ -93,10 +113,28 @@ window.onload = () => {
 
             const popup = document.querySelector('.popup-container');
             popup.style.display = 'block';
-            popup.style.left = `100px`;
-            popup.style.top = `100px`;
+            popup.style.left = `10px`;
+            popup.style.top = `10px`;
 
         });
+
+        path.addEventListener('click', () => {
+            const countyName = path.getAttribute('name');
+            const countyData = data[countyName];
+            document.querySelector('.popup-title').textContent = countyName;
+
+            const shopInfo = Object.entries(countyData)
+                .map(([shop, count]) => `<tr><td>${shop}</td><td style="color: white;">----</td><td style="text-align: center;">${count}</td></tr>`)
+                .join('');
+            const tableBody = document.querySelector('.map-tooltip table tbody');
+            tableBody.innerHTML = shopInfo;
+
+            const popup = document.querySelector('.popup-container');
+            popup.style.display = 'block';
+            popup.style.left = `10px`;
+            popup.style.top = `10px`;
+        });
+
 
         path.addEventListener('mouseout', () => {
             // document.querySelector('.popup-container').style.display = 'none';

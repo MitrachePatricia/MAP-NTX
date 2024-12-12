@@ -1,6 +1,6 @@
 body,
 html {
-  background-color: blanchedalmond;
+  background-color: #CCCCCC;
   overflow-x: hidden;
   overflow-y: hidden;
   margin: 0;
@@ -9,13 +9,33 @@ html {
   height: 100%;
 
 }
+
+
+.logo img {
+  position: absolute;
+  top: 50px;
+  right: 20px;
+  height: 10%;
+  width: 15%;
+  z-index: 101;
+}
+
+.title{
+  position: absolute;
+  left: 90vh;
+  font-weight: bold;
+  margin-top: 40px;
+  font: 100px times new roman;
+  pointer-events: none;
+}
+
 .popup-header {
   font-weight: bold;
   margin-bottom: 5px;
 }
 
 .popup-container {
-  position: absolute; 
+  position: absolute;
   background: white;
   border: 1px solid #ccc;
   padding: 5px;
@@ -23,8 +43,11 @@ html {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   z-index: 10; 
   display: none; 
-  max-width: 200px; 
+  height: 98vh;
+  width: 30vh;
+  pointer-events: none;
 }
+
 .allPaths {
   cursor: pointer;
   transition: fill 0.2s;
@@ -35,19 +58,15 @@ html {
 
 .popup-title {
   font-weight: bold;
-  font-size: 16px;
+  font-size: 20px;
   margin-bottom: 5px;
   text-align: center;
+  margin-top: 100px;
+  margin-bottom: 50px;
 }
 
-
-
-#map {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
+.popup-content {
+  margin-left: 10px;
 }
 
 svg path {
@@ -62,11 +81,19 @@ svg path:hover {
   svg {
     width: 100%;
     height: auto;
+    transform: scale(1.2);
   }
 
   svg path {
     stroke-width: 2px;
   }
+}
+
+.map-container {
+  position: relative;
+  top: 8vh;
+  left: 15vh;
+  height: 100%;
 }
 
 text {
@@ -75,7 +102,7 @@ text {
   text-anchor: middle;
   fill: black;
   block-size: 2px solid white;
-  font: 20px times new roman;
+  font: 20px arial;
 }
 
 #pin path{
