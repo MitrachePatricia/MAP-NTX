@@ -116,22 +116,25 @@ window.onload = () => {
                 const imageWidth = image.width;
                 const imageHeight = image.height;
               
-                const aspectRatio = imageWidth / imageHeight;
-                let drawWidth, drawHeight;
-              
-                if (canvasWidth / canvasHeight > aspectRatio) {
-                  drawHeight = canvasHeight;
-                  drawWidth = drawHeight * aspectRatio;
+                const canvasAspectRatio = canvasWidth / canvasHeight;
+                const imageAspectRatio = imageWidth / imageHeight;
+            
+                let drawWidth, drawHeight, drawX, drawY;
+            
+                if (canvasAspectRatio > imageAspectRatio) {
+                    drawWidth = canvasWidth;
+                    drawHeight = canvasWidth / imageAspectRatio;
+                    drawX = 0;
+                    drawY = (canvasHeight - drawHeight) / 2; 
                 } else {
-                  drawWidth = canvasWidth;
-                  drawHeight = drawWidth / aspectRatio;
+                    drawWidth = canvasHeight * imageAspectRatio;
+                    drawHeight = canvasHeight;
+                    drawX = (canvasWidth - drawWidth) / 2;
+                    drawY = 0;
                 }
-              
-                const drawX = (canvasWidth - drawWidth) / 2;
-                const drawY = (canvasHeight - drawHeight) / 2;
-              
+            
                 context.drawImage(image, 0, 0, imageWidth, imageHeight, drawX, drawY, drawWidth, drawHeight);
-              };
+            };
 
             const countyName = path.getAttribute('name');
             const countyData = data[countyName];
