@@ -13,20 +13,21 @@ html {
 
 .logo img {
   position: absolute;
-  top: 50px;
+  top: 10px;
   right: 20px;
-  height: 10%;
-  width: 15%;
+  height: 9%;
+  width: 14%;
   z-index: 101;
 }
 
 .title{
   position: absolute;
-  left: 90vh;
+  left: 80vh;
   font-weight: bold;
   margin-top: 40px;
-  font: 100px times new roman;
+  font: 100px arial;
   pointer-events: none;
+  z-index: 51;
 }
 
 .popup-header {
@@ -39,13 +40,14 @@ html {
   background: white;
   border: 1px solid #ccc;
   padding: 5px;
-  border-radius: 5px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   z-index: 10; 
   display: none; 
-  height: 98vh;
-  width: 30vh;
+  height: 100vh;
+  width: 300px;
   pointer-events: none;
+  padding: 0;
+  margin: 0;
 }
 
 .allPaths {
@@ -57,17 +59,62 @@ html {
 }
 
 .popup-title {
+  position:absolute;
+  top: 16.5%;
+  color: #333;
   font-weight: bold;
-  font-size: 20px;
-  margin-bottom: 5px;
-  text-align: center;
-  margin-top: 100px;
-  margin-bottom: 50px;
+  font-size: 40px;
+  margin-left: 10px;
+  text-align: left;
+  margin-bottom: 30px;
+  z-index: 50;
+  text-shadow: 0 1px 3px rgba(255, 255,255, 0.3);
 }
 
+
 .popup-content {
-  margin-left: 10px;
+  margin-top: 30px;
+  margin-left: 20px;
+  font-size: 20px;
 }
+
+.popup-image {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  z-index: 50;
+}
+
+.popup-image canvas {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.popup-image::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #ffffff 100%);
+  pointer-events: none;
+}
+
+.popup {
+  padding: 15px;
+  background-color: #ffffff;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.shop td {
+  padding: 5px;
+}
+
 
 svg path {
   cursor: pointer;

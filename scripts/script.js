@@ -99,41 +99,72 @@ window.onload = () => {
     const fileUrl = "https://raw.githubusercontent.com/MitrachePatricia/MAP-NTX/main/sources/data.xlsx";
     loadExcelFile(fileUrl);
 
+
     document.querySelectorAll('.allPaths').forEach(path => {
+
+        let canvas = document.getElementById('popup-canvas');
+        let context = canvas.getContext('2d');
+
         path.addEventListener('mouseover', () => {
+            
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            let image = new Image();
+            image.src = 'images/' + path.getAttribute("name") +'.jpg';
+            image.onload = function() {
+                const canvasWidth = canvas.width;
+                const canvasHeight = canvas.height;
+                const imageWidth = image.width;
+                const imageHeight = image.height;
+              
+                const aspectRatio = imageWidth / imageHeight;
+                let drawWidth, drawHeight;
+              
+                if (canvasWidth / canvasHeight > aspectRatio) {
+                  drawHeight = canvasHeight;
+                  drawWidth = drawHeight * aspectRatio;
+                } else {
+                  drawWidth = canvasWidth;
+                  drawHeight = drawWidth / aspectRatio;
+                }
+              
+                const drawX = (canvasWidth - drawWidth) / 2;
+                const drawY = (canvasHeight - drawHeight) / 2;
+              
+                context.drawImage(image, 0, 0, imageWidth, imageHeight, drawX, drawY, drawWidth, drawHeight);
+              };
+
             const countyName = path.getAttribute('name');
             const countyData = data[countyName];
             document.querySelector('.popup-title').textContent = countyName;
 
             const shopInfo = Object.entries(countyData)
-                .map(([shop, count]) => `<tr><td>${shop}</td><td style="color: white;">----</td><td style="text-align: center;">${count}</td></tr>`)
+                .map(([shop, count]) => `<tr><td>${shop}</td><td style="color: white;">----------</td><td style="text-align: center;">${count}</td></tr>`)
                 .join('');
             const tableBody = document.querySelector('.map-tooltip table tbody');
             tableBody.innerHTML = shopInfo;
 
             const popup = document.querySelector('.popup-container');
             popup.style.display = 'block';
-            popup.style.left = `10px`;
-            popup.style.top = `10px`;
 
         });
 
-        path.addEventListener('click', () => {
-            const countyName = path.getAttribute('name');
-            const countyData = data[countyName];
-            document.querySelector('.popup-title').textContent = countyName;
+        // WIP - on click save the pop up
+        // path.addEventListener('click', () => {
+        //     const countyName = path.getAttribute('name');
+        //     const countyData = data[countyName];
+        //     document.querySelector('.popup-title').textContent = countyName;
 
-            const shopInfo = Object.entries(countyData)
-                .map(([shop, count]) => `<tr><td>${shop}</td><td style="color: white;">----</td><td style="text-align: center;">${count}</td></tr>`)
-                .join('');
-            const tableBody = document.querySelector('.map-tooltip table tbody');
-            tableBody.innerHTML = shopInfo;
+        //     const shopInfo = Object.entries(countyData)
+        //         .map(([shop, count]) => `<tr><td>${shop}</td><td style="color: white;">----</td><td style="text-align: center;">${count}</td></tr>`)
+        //         .join('');
+        //     const tableBody = document.querySelector('.map-tooltip table tbody');
+        //     tableBody.innerHTML = shopInfo;
 
-            const popup = document.querySelector('.popup-container');
-            popup.style.display = 'block';
-            popup.style.left = `10px`;
-            popup.style.top = `10px`;
-        });
+        //     const popup = document.querySelector('.popup-container');
+        //     popup.style.display = 'block';
+        //     popup.style.left = `10px`;
+        //     popup.style.top = `10px`;
+        // });
 
 
         path.addEventListener('mouseout', () => {
