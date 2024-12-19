@@ -124,6 +124,11 @@ svg path:hover {
   fill: green;
 }
 
+.highlighted-label {
+  fill: white;
+  font-weight: bold;
+}
+
 @media (max-width: 768px) {
   svg {
     width: 100%;
@@ -135,6 +140,16 @@ svg path:hover {
     stroke-width: 2px;
   }
 }
+
+/* @media (min-width: 576px) { ... }
+
+@media (min-width: 768px) { ... }
+
+@media (min-width: 992px) { ... }
+
+@media (min-width: 1200px) { ... }
+
+@media (min-width: 1400px) { ... } */
 
 .map-container {
   position: relative;

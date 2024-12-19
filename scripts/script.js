@@ -6,15 +6,16 @@ window.onload = () => {
         circles.forEach(circle => {
             const id = circle.id.substring(2);
 
-            if(id!="B"){
-            const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
-            label.textContent = id;
+            if (id != "B") {
+                const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                label.textContent = id;
 
-            label.setAttribute("x", circle.getAttribute("cx"));
-            label.setAttribute("y", parseFloat(circle.getAttribute("cy")) + 15);
-            label.setAttribute("text-anchor", "middle");
+                label.setAttribute("x", circle.getAttribute("cx"));
+                label.setAttribute("y", parseFloat(circle.getAttribute("cy")) + 15);
+                label.setAttribute("text-anchor", "middle");
 
-            circle.parentNode.appendChild(label);}
+                circle.parentNode.appendChild(label);
+            }
         });
     }
 
@@ -23,9 +24,9 @@ window.onload = () => {
         const circles = labelPoints.querySelectorAll('circle');
 
         circles.forEach(circle => {
-            if(circle.id=="ROIS"){
-            const cx = parseFloat(circle.getAttribute('cx'));
-            const cy = parseFloat(circle.getAttribute('cy'));
+            if (circle.id == "ROIS") {
+                const cx = parseFloat(circle.getAttribute('cx'));
+                const cy = parseFloat(circle.getAttribute('cy'));
                 const pin = document.createElementNS('http://www.w3.org/2000/svg', 'image');
                 pin.setAttribute('x', cx + 10);
                 pin.setAttribute('y', cy);
@@ -42,20 +43,20 @@ window.onload = () => {
                 pin2.setAttribute('href', 'sources/pin.png');
 
                 labelPoints.appendChild(pin2);
-            } else if (circle.id=="RODJ" || circle.id=="ROB" || circle.id=="ROTM" || circle.id=="ROBV" || circle.id=="ROCJ"){
-                
-                    const cx = parseFloat(circle.getAttribute('cx'));
-                    const cy = parseFloat(circle.getAttribute('cy'));
-                        const pin = document.createElementNS('http://www.w3.org/2000/svg', 'image');
-                        pin.setAttribute('x', cx - 10);
-                        pin.setAttribute('y', cy - 35);
-                        pin.setAttribute('width', 30);
-                        pin.setAttribute('height', 30);
-                        pin.setAttribute('href', 'sources/pin.png');
-        
-                        labelPoints.appendChild(pin);
-                }
-            
+            } else if (circle.id == "RODJ" || circle.id == "ROB" || circle.id == "ROTM" || circle.id == "ROBV" || circle.id == "ROCJ" || circle.id == "ROCT") {
+
+                const cx = parseFloat(circle.getAttribute('cx'));
+                const cy = parseFloat(circle.getAttribute('cy'));
+                const pin = document.createElementNS('http://www.w3.org/2000/svg', 'image');
+                pin.setAttribute('x', cx - 10);
+                pin.setAttribute('y', cy - 35);
+                pin.setAttribute('width', 30);
+                pin.setAttribute('height', 30);
+                pin.setAttribute('href', 'sources/pin.png');
+
+                labelPoints.appendChild(pin);
+            }
+
         });
     }
 
@@ -106,39 +107,48 @@ window.onload = () => {
         let context = canvas.getContext('2d');
 
         path.addEventListener('mouseover', () => {
-            
+
+            const countyName = path.getAttribute('name');
+            const countyData = data[countyName];
+            document.querySelector('.popup-title').textContent = countyName;
+
+            const countyId = path.getAttribute('id'); 
+            const countyLabel = Array.from(document.querySelectorAll('text')).find(label =>
+                 label.textContent === countyId.substring(2));
+
+            if (countyLabel) {
+                countyLabel.classList.add('highlighted-label');
+                console.log(countyLabel.textContent + " added");
+            }
+
             context.clearRect(0, 0, canvas.width, canvas.height);
             let image = new Image();
-            image.src = 'images/' + path.getAttribute("name") +'.jpg';
-            image.onload = function() {
+            image.src = 'images/' + path.getAttribute("name") + '.jpg';
+            image.onload = function () {
                 const canvasWidth = canvas.width;
                 const canvasHeight = canvas.height;
                 const imageWidth = image.width;
                 const imageHeight = image.height;
-              
+
                 const canvasAspectRatio = canvasWidth / canvasHeight;
                 const imageAspectRatio = imageWidth / imageHeight;
-            
+
                 let drawWidth, drawHeight, drawX, drawY;
-            
+
                 if (canvasAspectRatio > imageAspectRatio) {
                     drawWidth = canvasWidth;
                     drawHeight = canvasWidth / imageAspectRatio;
                     drawX = 0;
-                    drawY = (canvasHeight - drawHeight) / 2; 
+                    drawY = (canvasHeight - drawHeight) / 2;
                 } else {
                     drawWidth = canvasHeight * imageAspectRatio;
                     drawHeight = canvasHeight;
                     drawX = (canvasWidth - drawWidth) / 2;
                     drawY = 0;
                 }
-            
+
                 context.drawImage(image, 0, 0, imageWidth, imageHeight, drawX, drawY, drawWidth, drawHeight);
             };
-
-            const countyName = path.getAttribute('name');
-            const countyData = data[countyName];
-            document.querySelector('.popup-title').textContent = countyName;
 
             const shopInfo = Object.entries(countyData)
                 .map(([shop, count]) => `<tr><td>${shop}</td><td style="color: white;">----------</td><td style="text-align: center;">${count}</td></tr>`)
@@ -151,29 +161,16 @@ window.onload = () => {
 
         });
 
-        // WIP - on click save the pop up
-        // path.addEventListener('click', () => {
-        //     const countyName = path.getAttribute('name');
-        //     const countyData = data[countyName];
-        //     document.querySelector('.popup-title').textContent = countyName;
-
-        //     const shopInfo = Object.entries(countyData)
-        //         .map(([shop, count]) => `<tr><td>${shop}</td><td style="color: white;">----</td><td style="text-align: center;">${count}</td></tr>`)
-        //         .join('');
-        //     const tableBody = document.querySelector('.map-tooltip table tbody');
-        //     tableBody.innerHTML = shopInfo;
-
-        //     const popup = document.querySelector('.popup-container');
-        //     popup.style.display = 'block';
-        //     popup.style.left = `10px`;
-        //     popup.style.top = `10px`;
-        // });
-
-
         path.addEventListener('mouseout', () => {
-            // document.querySelector('.popup-container').style.display = 'none';
+
+            const countyId = path.getAttribute('id'); 
+            const countyLabel = Array.from(document.querySelectorAll('text')).find(label =>
+                 label.textContent === countyId.substring(2));
+
+            if (countyLabel) {
+                countyLabel.classList.remove('highlighted-label');
+                console.log(countyLabel.textContent + " added");
+            }
         });
     });
-
-
 };
